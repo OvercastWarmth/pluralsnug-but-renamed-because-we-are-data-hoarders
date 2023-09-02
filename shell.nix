@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> {} }:
   pkgs.mkShell {
-    nativeBuildInputs = with pkgs.buildPackages; [ cargo git rustc ];
+    nativeBuildInputs = with pkgs.buildPackages; [ cargo git rustc rustfmt ];
 
     # Certain Rust tools won't work without this
     # This can also be fixed by using oxalica/rust-overlay and specifying the rust-src extension
