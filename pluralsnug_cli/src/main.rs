@@ -18,13 +18,14 @@ enum Target {
 enum SystemField {
 	Name {
 		#[command(subcommand)]
-		action: StringAction,
+		action: Option<Action>,
 	},
 }
 
 #[derive(Subcommand, Debug)]
-enum StringAction {
+enum Action {
 	Set { value: String },
+	Remove,
 }
 
 // pluralsnug system name  set    "string"
@@ -34,25 +35,43 @@ fn main() {
 	let cli = Cli::parse();
 
 	match cli.target {
-		Target::System { field } => match field {
-			SystemField::Name { action } => match action {
-				StringAction::Set { value } => {
-					// Load system from config
-					// let mut system = pluralsnug::System::Load()
-					println!("Set string `name` to \"{}\"", value)
-					// system.name = value
-					// Save system to config
-					// pluralsnug::System::Save(system)
+		Target::System { field } => {
+			// TODO: Read from database
+			// let mut system = pluralsnug::System::Load();
+			let mut system = temp::placeholder_system(); // TEMP
+			println!("{:?}", system); // TEMP
 
-					// Load system -> system.changename().save()
-					// system.readname()
-					// system.removename()
+			match field {
+				SystemField::Name { action } => match action {
+					Some(Action::Set { value }) => {
+						println!("Setting string `name` to \"{}\"", value);
+						system.name = Some(value);
 
-					// system.name = "something"
-					// system.name
-					// system.name = ""
-				}
-			},
-		},
+						println!("{:?}", system); // TEMP
+					}
+					Some(Action::Remove) => {
+						system.name = None;
+
+						println!("{:?}", system); // TEMP
+					}
+					None => {
+						println!("{}", system.name.unwrap_or(String::from("unset")));
+					}
+				},
+			}
+
+			// TODO: Save to database
+			// pluralsnug::System::Save(system);
+		}
+	}
+}
+
+mod temp {
+	use pluralsnug::System;
+
+	pub fn placeholder_system() -> System {
+		System {
+			name: Some(String::from("wawa")),
+		}
 	}
 }

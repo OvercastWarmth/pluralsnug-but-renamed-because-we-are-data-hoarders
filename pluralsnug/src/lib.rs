@@ -1,7 +1,6 @@
-#[allow(dead_code)] // i just want it to stop screaming
-
-struct System {
-	name: String,
+#[derive(Debug)]
+pub struct System {
+	pub name: Option<String>,
 }
 
 impl System {}
