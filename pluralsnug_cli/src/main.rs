@@ -37,41 +37,32 @@ fn main() {
 	match cli.target {
 		Target::System { field } => {
 			// TODO: Read from database
-			// let mut system = pluralsnug::System::Load();
-			let mut system = temp::placeholder_system(); // TEMP
+			let mut system = pluralsnug::load();
 			println!("{:?}", system); // TEMP
 
 			match field {
-				SystemField::Name { action } => match action {
-					Some(Action::Set { value }) => {
-						println!("Setting string `name` to \"{}\"", value);
-						system.name = Some(value);
+				SystemField::Name { action } => {
+					match action {
+						Some(Action::Set { value }) => {
+							println!("Setting string `name` to \"{}\"", value);
+							system.name = Some(value);
 
-						println!("{:?}", system); // TEMP
-					}
-					Some(Action::Remove) => {
-						system.name = None;
+							println!("{:?}", system); // TEMP
+						}
+						Some(Action::Remove) => {
+							system.name = None;
 
-						println!("{:?}", system); // TEMP
+							println!("{:?}", system); // TEMP
+						}
+						None => {
+							println!("{}", system.name.unwrap_or(String::from("unset")));
+						}
 					}
-					None => {
-						println!("{}", system.name.unwrap_or(String::from("unset")));
-					}
-				},
+				}
 			}
 
 			// TODO: Save to database
 			// pluralsnug::System::Save(system);
-		}
-	}
-}
-
-mod temp {
-	use pluralsnug::System;
-
-	pub fn placeholder_system() -> System {
-		System {
-			name: Some(String::from("wawa")),
 		}
 	}
 }
