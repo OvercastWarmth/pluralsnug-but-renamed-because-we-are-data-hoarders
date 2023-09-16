@@ -75,8 +75,7 @@ fn configure(cli: &Cli) -> Result<PathBuf, Box<dyn Error>> {
 		None => match env::var("PLURALSNUG_PATH") {
 			Ok(path) => PathBuf::from(path),
 			Err(_) => match home::home_dir() {
-				// Some(dir) => PathBuf::from(dir).join(".pluralsnug/system.json5"),
-				Some(_) => return Err(Box::new(SystemPathRanOutOfOptionsError)),
+				Some(dir) => PathBuf::from(dir).join(".pluralsnug/system.json5"),
 				None => return Err(Box::new(SystemPathRanOutOfOptionsError)),
 			},
 		},
