@@ -1,23 +1,20 @@
+use hocon::HoconLoader;
+use serde::Deserialize;
+use std::path::Path;
+
 /// A PluralSnug system.
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 pub struct System {
 	/// The system's name
 	pub name: Option<String>,
 }
 
-impl System {}
-
-// let mut system = pluralsnug::load();
-// - Load system
-//   - Read hocon file
-//   - Parse using serde
-// - Print System.name
-
 /// Loads a PluralSnug system.
-///
-/// Currently unimplemented, provides a placeholder instead.
-pub fn load() -> System {
-	System {
-		name: Some("wawa".to_string()),
-	}
+pub fn load<P: AsRef<Path>>(path: P) -> Result<System, hocon::Error> {
+	Ok(HoconLoader::new().load_file(path)?.resolve()?)
+}
+
+#[allow(unused_variables)]
+pub fn save<P: AsRef<Path>>(system: System, path: P) -> Result<(), hocon::Error> {
+	Ok(())
 }
