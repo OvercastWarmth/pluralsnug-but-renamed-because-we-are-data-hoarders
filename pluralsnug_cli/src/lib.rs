@@ -33,7 +33,7 @@ enum Action {
 pub fn run(cli: Cli) -> Result<(), Box<dyn Error>> {
 	match cli.target {
 		Target::System { field } => {
-			let mut system = pluralsnug::load("tests/test.conf")?;
+			let mut system = pluralsnug::load("tests/test.json")?;
 			println!("{:?}", system); // TEMP
 
 			match field {
