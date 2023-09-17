@@ -1,15 +1,14 @@
 use clap::Parser;
-use pluralsnug_cli::{run, Cli};
-
-// pluralsnug system name  set    "string"
-//            target field action value
+use pluralsnug_cli::{cli::Cli, run};
+use std::process;
 
 fn main() {
 	let cli = Cli::parse();
 
 	match run(cli) {
 		Err(error) => {
-			println!("Error: {}", error)
+			println!("Error: {}", error);
+			process::exit(247);
 		}
 		_ => (),
 	}
